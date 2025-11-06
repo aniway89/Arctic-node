@@ -1,0 +1,318 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Space+Grotesk:wght@300..700&display=swap");
+
+:root {
+  --bg-dark: oklch(0.92 0 264);
+  --bg: oklch(0.96 0 264);
+  --bg-light: oklch(1 0 264);
+  --text: oklch(0.15 0 264);
+  --text-mited: oklch(0.4 0 264);
+  --shadows-s: inset 0 1px 2px #ffffff, 0 1px 2px #00000030, 0 2px 4px #00000015;
+  --shadows-m: inset 0 1px 2px #ffffff, 0 2px 4px #00000030, 0 4px 8px #00000015;
+  --shadows-l: inset 0 1px 2px #ffffff, 0 2px 6px #00000030, 0 6px 10px #00000015;
+}
+
+/* Existing styles remain the same */
+main {
+  height: 100%;
+}
+
+body.light {
+  --bg-dark: oklch(0.1 0 264);
+  --bg: oklch(0.2 0 264);
+  --bg-light: oklch(0.3 0 264);
+  --text: oklch(0.96 0 264);
+  --text-mited: oklch(0.76 0 264);
+  --shadows-s: inset 0 1px 2px #ffffff30, 0 1px 2px #00000030, 0 2px 4px #00000015;
+  --shadows-m: inset 0 1px 2px #ffffff30, 0 2px 4px #00000030, 0 4px 8px #00000015;
+  --shadows-l: inset 0 1px 2px #ffffff30, 0 2px 6px #00000030, 0 6px 10px #00000015;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-mited);
+  height: 100vh;
+  padding: 15px;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.Hader {
+  border-radius: 15px;
+}
+
+.user_pfp {
+  scale: 1.1;
+}
+
+.shadows {
+  box-shadow: 0 0 20px #0003, 1px 5px 7px 0px #00000030;
+}
+
+.sh-s {
+  box-shadow: var(--shadows-s);
+}
+
+.sh-m {
+  box-shadow: var(--shadows-m);
+}
+
+.sh-l {
+  box-shadow: var(--shadows-l);
+}
+
+.text-c {
+  color: var(--text);
+}
+
+.text-m {
+  color: var(--text-mited);
+}
+
+.bg-l {
+  background: var(--bg-light);
+}
+
+.bg {
+  background: var(--bg);
+}
+
+.bg-d {
+  background: var(--bg-dark);
+}
+
+.b-container {
+  height: 88%;
+}
+
+.Terminal {
+  width: 80%;
+  padding: 10px;
+  min-height: 100%;
+  border-radius: 15px;
+}
+
+.File_manager_container {
+  width: 20%;
+  border-radius: 15px;
+  padding: 10px;
+  height: 100%;
+}
+
+.resources {
+  height: 100%;
+  width: 15%;
+  border-radius: 10px;
+}
+
+.Reasource_Card {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 13px;
+  height: 18%;
+  justify-content: center;
+}
+
+.wrapss {
+  overflow-y: scroll;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.terminal {
+  height: 100%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inconsolata", monospace;
+}
+
+.log {
+  height: 100%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.log::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.log::-webkit-scrollbar-thumb {
+  background: var(--bg-dark);
+  border-radius: 5px;
+  max-height: 100px;
+  box-shadow: var(--shadows-s);
+  margin-right: 2px;
+}
+
+.Fiels {
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  height: 50px;
+}
+
+.wrapss::-webkit-scrollbar {
+  width: 8px;
+}
+
+.wrapss::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+.wrapss::-webkit-scrollbar-thumb {
+  background: var(--bg-light);
+  border-radius: 5px;
+  max-height: 100px;
+  box-shadow: var(--shadows-s);
+}
+
+.wrapss::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-light);
+}
+
+.wrapss::-webkit-scrollbar-button {
+  display: none;
+  background: var(--bg);
+}
+
+/* New CSS classes extracted from Tailwind */
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.gap-5 {
+  gap: 1.25rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.w-8 {
+  width: 2rem;
+}
+
+.h-8 {
+  height: 2rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.pl-5 {
+  padding-left: 1.25rem;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-centers {
+  align-items: center;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.text-1xl {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.pl-3 {
+  padding-left: 0.75rem;
+}
+
+.outline-0 {
+  outline: 0;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+/* Made by Ayan Khan */
