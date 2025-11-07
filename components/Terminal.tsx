@@ -18,7 +18,7 @@ const Terminal = () => {
           <input
             type="text"
             placeholder="Type minecraft command here /"
-            className="w-full pl-3 outline-0 "
+            className="w-full pl-3 outline-0 terminal-command-input"
           />
         </div>
       </div>

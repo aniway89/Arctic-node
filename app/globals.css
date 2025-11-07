@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Space+Grotesk:wght@300..700&display=swap");
-
 :root {
   --bg-dark: oklch(0.92 0 264);
   --bg: oklch(0.96 0 264);
@@ -9,11 +8,14 @@
   --shadows-s: inset 0 1px 2px #ffffff, 0 1px 2px #00000030, 0 2px 4px #00000015;
   --shadows-m: inset 0 1px 2px #ffffff, 0 2px 4px #00000030, 0 4px 8px #00000015;
   --shadows-l: inset 0 1px 2px #ffffff, 0 2px 6px #00000030, 0 6px 10px #00000015;
+  --shadows-ml: inset 0 1px 2px #ffffff, 0 4px 8px #00000030, 0 10px 14px #00000015;
 }
 
 /* Existing styles remain the same */
 main {
   height: 100%;
+  padding-bottom: 0;
+
 }
 
 body.light {
@@ -25,13 +27,17 @@ body.light {
   --shadows-s: inset 0 1px 2px #ffffff30, 0 1px 2px #00000030, 0 2px 4px #00000015;
   --shadows-m: inset 0 1px 2px #ffffff30, 0 2px 4px #00000030, 0 4px 8px #00000015;
   --shadows-l: inset 0 1px 2px #ffffff30, 0 2px 6px #00000030, 0 6px 10px #00000015;
+  --shadows-ml: inset 0 1px 2px #ffffff30, 0 4px 8px #00000030, 0 10px 14px #00000015;
+
 }
 
 body {
   background-color: var(--bg-dark);
   color: var(--text-mited);
-  height: 100vh;
-  padding: 15px;
+  height: 100dvh;
+  padding: 5px 15px ;
+  padding-bottom: 0 !important;
+  overflow: hidden;
   font-family: "Space Grotesk", sans-serif;
 }
 
@@ -40,7 +46,8 @@ body {
 }
 
 .user_pfp {
-  scale: 1.1;
+  scale: 1;
+  width: 100%;
 }
 
 .shadows {
@@ -57,6 +64,9 @@ body {
 
 .sh-l {
   box-shadow: var(--shadows-l);
+}
+.sh-ml {
+  box-shadow: var(--shadows-ml);
 }
 
 .text-c {
@@ -80,7 +90,7 @@ body {
 }
 
 .b-container {
-  height: 88%;
+  height: 80%;
 }
 
 .Terminal {
@@ -98,9 +108,13 @@ body {
 }
 
 .resources {
-  height: 100%;
+  max-height: 100%;
   width: 15%;
   border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+
 }
 
 .Reasource_Card {
@@ -108,8 +122,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 13px;
-  height: 18%;
+  width: 100%;
   justify-content: center;
 }
 
@@ -150,7 +163,7 @@ body {
 }
 
 .Fiels {
-  padding: 10px;
+  padding: 4px 10px;
   border-radius: 10px;
   margin-bottom: 10px;
   height: 50px;
@@ -197,7 +210,9 @@ body {
 .items-center {
   align-items: center;
 }
-
+.items-start{
+  align-items: start;
+}
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -290,7 +305,15 @@ body {
 .w-full {
   width: 100%;
 }
-
+.w-fit{
+  width: fit-content;
+}
+.h-fill{
+  height:100%;
+}
+.h-fit{
+  height: fit-content;
+}
 .pl-3 {
   padding-left: 0.75rem;
 }
@@ -302,7 +325,9 @@ body {
 .pr-2 {
   padding-right: 0.5rem;
 }
-
+.p-2{
+  padding: 0.5rem;
+}
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -315,4 +340,195 @@ body {
   gap: 1rem;
 }
 
+.by{
+  width: 100%;
+  
+}
+
+.border{
+  border: 1px solid white;
+}
+
+
+.terminal-command-input{
+  background: none;
+  outline: none;
+  border: none;
+  color: var(--text-mited);
+}
+
+
+
+/* File manager */
+.file_expolor {
+  width: 80%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%) scale(0); /* start small */
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  /* background: #55555585; */
+  animation: popup 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes popup {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popout {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+.file_expolor.popup {
+  animation: popup 0.3s ease forwards;
+}
+
+.file_expolor.closing {
+  animation: popout 0.3s ease forwards;
+}
+
+
+.hader{
+  padding: 10px;
+  border-radius: 10px;
+}
+.close{
+  color: rgba(255, 0, 0, 0.842);
+  cursor: pointer;
+}
+.filemanager-content-container{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.file-containers{
+  height: 95%;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap ;
+  gap: 10px;
+  padding-top: 10px;
+  padding: 20px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding-bottom: 20px;
+   scrollbar-gutter: stable;
+}
+.grid-cont{
+  align-content: flex-start;
+}
 /* Made by Ayan Khan */
+
+
+.File_card.list{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  width: 100%;
+  border-radius: 10px;
+  transition-duration: 300ms;
+  &:hover{
+    scale: 1.02;
+    transition-duration: 300ms;
+  }
+
+}
+.File_card.list .right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+
+}
+.File_card.grid{
+  display: grid;
+  padding: 1px;
+  place-content: center;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover{
+    scale: 1.02;
+    transition-duration: 300ms;
+  }
+
+}
+
+
+.File_card.grid .right{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+
+
+}
+.File_card.grid .right .file_title {
+  width: 90px;
+  font-size: 0.8rem;
+  white-space: nowrap;       /* Keep text on one line */
+  overflow: hidden;          /* Hide the overflowing text */
+  text-overflow: ellipsis;   /* Add the "..." */
+}
+
+.File_card.grid .right .text-3xl{
+  font-size: 3rem;
+}
+.File_card.grid .recent-update{
+  display: none;
+
+
+}
+.floatoing_buttons{
+  position: fixed;
+  right: 0;
+  margin-bottom: 40px;
+  margin-right: 30px;
+  bottom: 0;
+  font-size: 1.5rem;
+}
+
+.floating_button{
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+  &:hover{
+    scale: 1.03;
+  }
+  box-shadow: inset 0 1px 2px #ffffff30, 0 4px 8px #00000030, 3px 3px 3px #00000034;
+}

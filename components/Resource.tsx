@@ -5,10 +5,10 @@ import { PiHardDrivesFill } from "react-icons/pi";
 
 const Resource = () => {
   return (
-    <div className="resources flex-col items-centers">
+    <div className="resources  ">
       <div className="Reasource_Card  bg-l p-4 sh-m ">
         <FaWifi className="text-3xl" />
-        <div className="by font-semibold text-xs text-center mt-2">
+        <div className="by  font-semibold text-xs text-center mt-2">
           orcarmmub2.arcticverse.in port: 1031
         </div>
       </div>
