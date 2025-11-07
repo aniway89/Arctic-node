@@ -8,7 +8,7 @@ const Resource = () => {
     <div className="resources  ">
       <div className="Reasource_Card  bg-l p-4 sh-m ">
         <FaWifi className="text-3xl" />
-        <div className="by  font-semibold text-xs text-center mt-2">
+        <div className="by  font-semibold text-xs text-center mt-2 ipadress">
           orcarmmub2.arcticverse.in port: 1031
         </div>
       </div>
@@ -18,7 +18,7 @@ const Resource = () => {
           4D 12H 14M
         </div>
       </div>
-      <div className="Reasource_Card  bg-l p-4 sh-m ">
+      <div className="Reasource_Card  bg-l p-4 sh-m ">  
         <RiRam2Fill className="text-3xl" />
         <div className="by font-semibold text-1xl text-center mt-2">
           4.4 / 12Gb
@@ -32,7 +32,9 @@ const Resource = () => {
       </div>
       <div className="Reasource_Card  bg-l p-4 sh-m ">
         <PiHardDrivesFill className="text-3xl" />
-        <div className="by font-semibold text-1xl text-center">4.4 / 19Gb</div>
+        <div className="by font-semibold text-1xl text-center mt-2">
+          4.4 / 19Gb
+        </div>
       </div>
     </div>
   );

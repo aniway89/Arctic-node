@@ -9,7 +9,9 @@ const Files_Tab = ({
   return (
     <div className={`Fiels bg-l sh-s flex items-center gap-4 ${className}`}>
       <Icon className={iconSize} />
-      {name}
+      <div className="wrapup">
+        {name}
+      </div>
     </div>
   );
 };

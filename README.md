@@ -84,4 +84,19 @@ This project uses **Tailwind CSS** for styling — simple, efficient, and utilit
 
 > Passionate about clean design, structured code, and creating smooth user experiences.
 
--- i add a branch which name is feath 
+
+
+
+change the 'Files_Tab.tsx'
+change the 'Resource.tsx'
+change the 'globbal.css'
+
+work to do on after classes today----
+
+
+create the file selection system
+- select the files
+- delete or move the file
+    - also create the system for the behaviours of file moveing through the folders
+- create download and delete system
+- add select all / cancle / and select count header 
