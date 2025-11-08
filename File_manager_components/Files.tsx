@@ -1,17 +1,21 @@
-import { FaFolder } from "react-icons/fa";
-
+// File_manager_components/Files.tsx
 interface FilesProps {
   title: string;
   time: string;
   icon?: React.ReactNode;
   viewMode: "grid" | "list";
+  isFolder?: boolean;
+  onClick: () => void;
 }
 
-const Files: React.FC<FilesProps> = ({ title, time, icon, viewMode }) => {
+const Files: React.FC<FilesProps> = ({ title, time, icon, viewMode, isFolder = false, onClick }) => {
   return (
-    <div className={`File_card bg-l sh-l ${viewMode}`}>
+    <div 
+      className={`File_card bg-l sh-l ${viewMode} ${isFolder ? 'folder' : 'file'} cursor-pointer`}
+      onClick={onClick}
+    >
       <div className="right">
-        {icon || <FaFolder className="text-3xl" />}
+        {icon}
         <div className="file_title">{title}</div>
       </div>
       <div className="recent-update">{time}</div>
