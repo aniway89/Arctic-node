@@ -5,11 +5,15 @@ interface FilesProps {
   icon?: React.ReactNode;
   viewMode: "grid" | "list";
   isFolder?: boolean;
+  onClick: () => void;
 }
 
-const Files: React.FC<FilesProps> = ({ title, time, icon, viewMode, isFolder = false }) => {
+const Files: React.FC<FilesProps> = ({ title, time, icon, viewMode, isFolder = false, onClick }) => {
   return (
-    <div className={`File_card bg-l sh-l ${viewMode} ${isFolder ? 'folder' : 'file'}`}>
+    <div 
+      className={`File_card bg-l sh-l ${viewMode} ${isFolder ? 'folder' : 'file'} cursor-pointer`}
+      onClick={onClick}
+    >
       <div className="right">
         {icon}
         <div className="file_title">{title}</div>

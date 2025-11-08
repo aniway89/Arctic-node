@@ -18,38 +18,85 @@ interface FileInfo {
 
 interface FileExpolorProps {
   setIsVisible: (value: boolean) => void;
+  onFileOpen: (filePath: string, fileName: string) => void;
 }
 
-const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible }) => {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) => {
   const [closing, setClosing] = useState(false);
   const [files, setFiles] = useState<FileInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [currentPath, setCurrentPath] = useState<string>("/");
+const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("viewMode");
+    return (saved === "grid" || saved === "list") ? saved : "grid";
+  }
+  return "grid";
+});
+  
+  // Fetch files for current directory
+  const fetchFiles = async (directory: string = "/") => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/files?directory=${encodeURIComponent(directory)}`);
+      const data = await res.json();
+      setFiles(data);
+      setCurrentPath(directory);
+    } catch (err) {
+      console.error("Error fetching files:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // Fetch files
+  // Initial fetch
   useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const res = await fetch("/api/files");
-        const data = await res.json();
-        setFiles(data);
-      } catch (err) {
-        console.error("Error fetching files:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchFiles();
   }, []);
 
   // Load and save user view preference
-  useEffect(() => {
+useEffect(() => {
+  if (typeof window !== "undefined") {
     const saved = localStorage.getItem("viewMode");
+    console.log("Loaded viewMode from localStorage:", saved);
     if (saved === "grid" || saved === "list") setViewMode(saved);
-  }, []);
-  useEffect(() => {
+  }
+}, []);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    console.log("Saving viewMode to localStorage______:", viewMode);
     localStorage.setItem("viewMode", viewMode);
-  }, [viewMode]);
+  }
+}, [viewMode]);
+  // Handle folder click - navigate to folder
+  const handleFolderClick = (folderName: string) => {
+    const newPath = currentPath === "/" 
+      ? `/${folderName}` 
+      : `${currentPath}/${folderName}`;
+    fetchFiles(newPath);
+  };
+
+  // Handle file click - check extension and open editor if supported
+  const handleFileClick = (fileName: string) => {
+    const fileExtension = fileName.split('.').pop()?.toLowerCase();
+    const supportedExtensions = ['json', 'yml', 'yaml', 'txt', 'js', 'ts', 'css', 'html'];
+    
+    if (fileExtension && supportedExtensions.includes(fileExtension)) {
+      const filePath = currentPath === "/" 
+        ? `/${fileName}` 
+        : `${currentPath}/${fileName}`;
+      onFileOpen(filePath, fileName);
+    } else {
+      console.log("File type not supported for editing:", fileName);
+      // You can add download or other actions here
+    }
+  };
+
+  // Handle path navigation (breadcrumb click)
+  const handlePathClick = (path: string) => {
+    fetchFiles(path);
+  };
 
   // Format time difference
   const formatTimeAgo = (modifiedAt?: string): string => {
@@ -59,7 +106,7 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible }) => {
     const diffMs = now.getTime() - modifiedDate.getTime();
     const diffHours = diffMs / (1000 * 60 * 60);
 
-    if (diffHours >= 23) return ""; // older than 23h → show nothing
+    if (diffHours >= 23) return "";
 
     const diffMins = diffMs / (1000 * 60);
     if (diffMins < 60) return `${Math.floor(diffMins)} min ago`;
@@ -73,6 +120,26 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible }) => {
     setTimeout(() => setIsVisible(false), 300);
   };
 
+  // Build path segments for breadcrumb display
+  const pathSegments = [];
+  let accumulatedPath = "";
+  
+  if (currentPath === "/") {
+    pathSegments.push({ name: "Home", path: "/", isCurrent: true });
+  } else {
+    pathSegments.push({ name: "Home", path: "/", isCurrent: false });
+    
+    const parts = currentPath.split('/').filter(part => part);
+    parts.forEach((part, index) => {
+      accumulatedPath += `/${part}`;
+      pathSegments.push({ 
+        name: part, 
+        path: accumulatedPath, 
+        isCurrent: index === parts.length - 1 
+      });
+    });
+  }
+
   return (
     <div className={`file_expolor flex bg-d sh-l ${closing ? "closing" : "popup"}`}>
       <div className="hader flex bg sh-l justify-between items-center text-c">
@@ -83,16 +150,31 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible }) => {
       </div>
 
       <div className="filemanager-content-container bg sh-m">
-        <div className="path">Home/</div>
+        {/* Clickable Path Navigation */}
+        <div className="path flex items-center flex-wrap">
+          {pathSegments.map((segment, index) => (
+            <div key={segment.path} className="flex items-center">
+              {index > 0 && <span className="mx-1">/</span>}
+              <span 
+                className={`path-segment cursor-pointer hover:underline ${
+                  segment.isCurrent ? 'text-c' : ''
+                }`}
+                onClick={() => handlePathClick(segment.path)}
+              >
+                {segment.name}
+              </span>
+            </div>
+          ))}
+        </div>
 
         {loading ? (
-          <div className="text-c text-xs p-3">Loading files...</div>
+          <div className="notfound">Loading files...</div>
         ) : files.length === 0 ? (
-          <div className="text-c text-xs p-3">No files found.</div>
+          <div className="notfound">Empty</div>
         ) : (
           <div className={`file-containers grid-cont wrapss ${viewMode}`}>
             {files.map((f) => {
-              // choose correct icon
+              // Choose correct icon
               const Icon = !f.is_file
                 ? FaFolder
                 : f.mimetype.includes("zip")
@@ -100,6 +182,7 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible }) => {
                 : FaFileAlt;
 
               const timeDisplay = formatTimeAgo(f.modified_at);
+              
               return (
                 <Files
                   key={f.name}
@@ -107,6 +190,8 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible }) => {
                   time={timeDisplay}
                   icon={<Icon className="text-3xl" />}
                   viewMode={viewMode}
+                  isFolder={!f.is_file}
+                  onClick={() => !f.is_file ? handleFolderClick(f.name) : handleFileClick(f.name)}
                 />
               );
             })}

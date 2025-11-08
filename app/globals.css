@@ -441,7 +441,8 @@ body {
   display: flex;
   flex-wrap: wrap ;
   gap: 10px;
-  padding-top: 10px;
+  padding-top: 0px;
+  margin-top: 10px;
   padding: 20px;
   overflow-y: scroll;
   box-sizing: border-box;

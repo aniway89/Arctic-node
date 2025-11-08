@@ -11,16 +11,20 @@ import File_Expolor from "@/File_manager_components/File_Expolor";
 const Page = () => {
   const [isFileEditorVisible, setFileEditorVisible] = useState<boolean>(false);
   const [isFileExpolorVisible, setFileExpolorVisible] = useState<boolean>(false);
+  const [currentFile, setCurrentFile] = useState<{path: string, name: string} | null>(null);
 
   const handleFolderClick = (folderName: string) => {
     setFileExpolorVisible(true);
-    // The folder navigation logic is now handled within File_Expolor
   };
 
   const handleFileClick = (fileName: string) => {
-    // Open file in editor or handle file click
+    // For files in the main File_Manager component
     setFileEditorVisible(true);
-    // You can pass the file content to File_Editor here
+  };
+
+  const handleFileOpen = (filePath: string, fileName: string) => {
+    setCurrentFile({ path: filePath, name: fileName });
+    setFileEditorVisible(true);
   };
 
   return (
@@ -38,10 +42,17 @@ const Page = () => {
       { (isFileEditorVisible || isFileExpolorVisible) && (
         <div className="absolute_container flex">
           {isFileExpolorVisible && (
-            <File_Expolor setIsVisible={setFileExpolorVisible} />
+            <File_Expolor 
+              setIsVisible={setFileExpolorVisible} 
+              onFileOpen={handleFileOpen}
+            />
           )}
           {isFileEditorVisible && (
-            <File_Editor setIsVisible={setFileEditorVisible} />
+            <File_Editor 
+              setIsVisible={setFileEditorVisible} 
+              filePath={currentFile?.path}
+              fileName={currentFile?.name}
+            />
           )}
         </div>
       )}
