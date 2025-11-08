@@ -32,7 +32,9 @@ body.light {
   --shadows-ml: inset 0 1px 2px #ffffff30, 0 4px 8px #00000030, 0 10px 14px #00000015;
 
 }
-
+.mr-2{
+  margin-right: 2rem;
+}
 body {
   background-color: var(--bg-dark);
   color: var(--text-mited);
@@ -457,7 +459,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 15px;
-  width: 100%;
+  width: 100% !important;
   border-radius: 10px;
   transition-duration: 300ms;
   &:hover{
@@ -496,6 +498,7 @@ body {
  display: flex;
  flex-direction: column;
  align-items: center;
+ gap: 10px;
 
 
 }
@@ -634,4 +637,16 @@ body {
 
 .cancel_button{
   border: 1px solid var(--bg-light);
+}
+.path{
+  display: flex;
+  align-items: center;
+
+}
+.notfound{
+
+  padding: 10px;
+  height: 90%;
+  display: grid;
+  place-content: center;
 }

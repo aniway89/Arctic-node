@@ -1,3 +1,4 @@
+// page.tsx
 "use client";
 import { useState } from "react";
 import File_Manager from "@/components/File_Manager";
@@ -8,18 +9,30 @@ import File_Editor from "@/File_manager_components/File_Editor";
 import File_Expolor from "@/File_manager_components/File_Expolor";
 
 const Page = () => {
-  const [isFileEditorVisible, setFileEditorVisible] = useState<boolean>(true);
-  const [isFileExpolorVisible, setFileExpolorVisible] = useState<boolean>(true);
+  const [isFileEditorVisible, setFileEditorVisible] = useState<boolean>(false);
+  const [isFileExpolorVisible, setFileExpolorVisible] = useState<boolean>(false);
 
-  const absoluteContainerVisible = isFileEditorVisible || isFileExpolorVisible ? "flex" : "hidden";
+  const handleFolderClick = (folderName: string) => {
+    setFileExpolorVisible(true);
+    // The folder navigation logic is now handled within File_Expolor
+  };
 
- return (
+  const handleFileClick = (fileName: string) => {
+    // Open file in editor or handle file click
+    setFileEditorVisible(true);
+    // You can pass the file content to File_Editor here
+  };
+
+  return (
     <main>
       <Hader />
       <div className="b-container flex gap-3 mt-3">
         <Terminal />
         <Resource />
-        <File_Manager />
+        <File_Manager 
+          onFolderClick={handleFolderClick}
+          onFileClick={handleFileClick}
+        />
       </div>
 
       { (isFileEditorVisible || isFileExpolorVisible) && (

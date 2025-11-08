@@ -1,10 +1,14 @@
+// app/api/files/route.ts
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const directory = searchParams.get('directory') || '/';
+
     const res = await axios.get(
-      "https://panel.arcticverse.in/api/client/servers/430de4da/files/list?directory=%2F",
+      `https://panel.arcticverse.in/api/client/servers/430de4da/files/list?directory=${encodeURIComponent(directory)}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.PTERO_TOKEN}`,

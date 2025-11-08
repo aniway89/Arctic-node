@@ -1,3 +1,4 @@
+// components/File_Manager.tsx
 "use client";
 import { useEffect, useState } from "react";
 import { FaFileAlt } from "react-icons/fa";
@@ -10,13 +11,18 @@ interface FileInfo {
   mimetype: string;
 }
 
-const File_Manager = () => {
+interface FileManagerProps {
+  onFolderClick: (folderName: string) => void;
+  onFileClick: (fileName: string) => void;
+}
+
+const File_Manager: React.FC<FileManagerProps> = ({ onFolderClick, onFileClick }) => {
   const [files, setFiles] = useState<FileInfo[]>([]);
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const res = await fetch("/api/files"); // local proxy route
+        const res = await fetch("/api/files");
         const data = await res.json();
         setFiles(data);
       } catch (err) {
@@ -25,6 +31,16 @@ const File_Manager = () => {
     };
     fetchFiles();
   }, []);
+
+  const handleItemClick = (file: FileInfo) => {
+    if (!file.is_file) {
+      // It's a folder
+      onFolderClick(file.name);
+    } else {
+      // It's a file
+      onFileClick(file.name);
+    }
+  };
 
   return (
     <div className="File_manager_container bg sh-s flex-col">
@@ -36,7 +52,15 @@ const File_Manager = () => {
             ? FaFileZipper
             : FaFileAlt;
 
-          return <Files_Tab key={f.name} name={f.name} icon={Icon} />;
+          return (
+            <div 
+              key={f.name} 
+              onClick={() => handleItemClick(f)}
+              className="cursor-pointer"
+            >
+              <Files_Tab name={f.name} icon={Icon} />
+            </div>
+          );
         })}
       </div>
     </div>
