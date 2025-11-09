@@ -7,6 +7,7 @@ import { MdViewList } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 import { FaFolder, FaFileZipper } from "react-icons/fa6";
 import Files from "./Files";
+import Selection_popup from "./Selection_popup";
 
 interface FileInfo {
   name: string;
@@ -196,7 +197,7 @@ useEffect(() => {
               );
             })}
           </div>
-        )}
+        )} 
       </div>
 
       <div className="floatoing_buttons">
@@ -207,6 +208,7 @@ useEffect(() => {
           {viewMode === "grid" ? <MdViewList /> : <HiViewGrid />}
         </div>
       </div>
+      <Selection_popup/>
     </div>
   );
 };
