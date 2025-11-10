@@ -573,9 +573,9 @@ body {
   position: absolute;
   transform: translate(-50%, -50%) scale(0); /* start small */
   border-radius: 15px;
-  padding: 15px;
+  padding: 10px;
   display: flex;
-  gap: 15px;
+  gap: 10px;
   flex-direction: column;
   /* background: #55555585; */
   animation: popup 0.6s cubic-bezier(0.25, 1, 0.5, 1);
@@ -653,19 +653,73 @@ body {
 }
 .selection_pop{
   position: absolute;
-  bottom: 0;
-  border: 1px solid white ;
-  width: 98%;
-  display: flex;
+  position: absolute;
+  inset: auto 0 0 0;
+  margin: 0 auto;
+  width: fit-content;
+  margin-bottom: 30px;
+  display: none;
   justify-content: center;
+  box-sizing: border-box;
 }
 .container_popup{
-  padding: 6px;
+  padding: 10px;
   display: grid;
   place-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-sizing: border-box;
 }
 .popup_section{
-  padding: 10px;
+  padding: 0px 50px 15px 30px;
   border-radius: 10px;
+   box-sizing: border-box;
+}
+.files_but{
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition-duration: 200ms;
+  cursor: pointer;
+  &:hover{
+    scale: 1.03;
+    transition-duration: 200ms;
+    
+  }
+}
+
+.selected-items{
+  gap: 50px;
+}
+.Selected{
+  font-size: 1.4rem;
+  width: 100%;
+  margin-top: -5px;
+  gap: 15px;
+  text-align: center;
+}
+.lefthang{
+  height: 100%;
+  justify-content: end;
+  padding-top: 8px;
+  margin-right: -30px;
+}
+
+
+.dime-blue{
+  background-color: oklch(63.259% 0.17587 258.626);
+  color: white;
+}
+.dime-red{
+  background-color: oklch(65.432% 0.18754 22.79);
+  color: white;
+}
+
+.Checkbox{
+  font-size: 2rem;
+}
+
+
+.selected-file{
+  scale: 0.99;
+  opacity: 0.6;
 }

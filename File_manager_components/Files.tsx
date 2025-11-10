@@ -1,3 +1,5 @@
+import { MdCheckBoxOutlineBlank, MdOutlineCheckBox } from "react-icons/md";
+
 // File_manager_components/Files.tsx
 interface FilesProps {
   title: string;
@@ -15,6 +17,8 @@ const Files: React.FC<FilesProps> = ({ title, time, icon, viewMode, isFolder = f
       onClick={onClick}
     >
       <div className="right">
+        <MdCheckBoxOutlineBlank />{/*display these both icons by default if the file is not selected*/}
+        <MdOutlineCheckBox /> {/*IF selected */}
         {icon}
         <div className="file_title">{title}</div>
       </div>

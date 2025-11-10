@@ -189,7 +189,7 @@ useEffect(() => {
                   key={f.name}
                   title={f.name}
                   time={timeDisplay}
-                  icon={<Icon className="text-3xl" />}
+                  icon={<Icon className="text-3xl " />}
                   viewMode={viewMode}
                   isFolder={!f.is_file}
                   onClick={() => !f.is_file ? handleFolderClick(f.name) : handleFileClick(f.name)}
