@@ -7,6 +7,7 @@ import { MdViewList } from "react-icons/md";
 import { FaFileAlt } from "react-icons/fa";
 import { FaFolder, FaFileZipper } from "react-icons/fa6";
 import Files from "./Files";
+import Selection_popup from "./Selection_popup";
 
 interface FileInfo {
   name: string;
@@ -26,14 +27,18 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) 
   const [files, setFiles] = useState<FileInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPath, setCurrentPath] = useState<string>("/");
-const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
-  if (typeof window !== "undefined") {
-    const saved = localStorage.getItem("viewMode");
-    return (saved === "grid" || saved === "list") ? saved : "grid";
-  }
-  return "grid";
-});
+  const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
   
+  // FIXED: Use the same initial state function as your old working version
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("viewMode");
+      return (saved === "grid" || saved === "list") ? saved : "grid";
+    }
+    return "grid";
+  });
+
   // Fetch files for current directory
   const fetchFiles = async (directory: string = "/") => {
     setLoading(true);
@@ -42,6 +47,9 @@ const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
       const data = await res.json();
       setFiles(data);
       setCurrentPath(directory);
+      // Clear selection and exit selection mode when changing directory
+      setSelectedFiles(new Set());
+      setIsSelectionMode(false);
     } catch (err) {
       console.error("Error fetching files:", err);
     } finally {
@@ -54,48 +62,93 @@ const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
     fetchFiles();
   }, []);
 
-  // Load and save user view preference
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    const saved = localStorage.getItem("viewMode");
-    console.log("Loaded viewMode from localStorage:", saved);
-    if (saved === "grid" || saved === "list") setViewMode(saved);
-  }
-}, []);
+  // FIXED: Save view mode to localStorage when it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      console.log("Saving viewMode to localStorage:", viewMode);
+      localStorage.setItem("viewMode", viewMode);
+    }
+  }, [viewMode]);
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    console.log("Saving viewMode to localStorage______:", viewMode);
-    localStorage.setItem("viewMode", viewMode);
-  }
-}, [viewMode]);
-  // Handle folder click - navigate to folder
-  const handleFolderClick = (folderName: string) => {
-    const newPath = currentPath === "/" 
-      ? `/${folderName}` 
-      : `${currentPath}/${folderName}`;
-    fetchFiles(newPath);
+  // Enter selection mode and select the specific file
+  const enterSelectionMode = (fileName: string) => {
+    setIsSelectionMode(true);
+    handleFileSelect(fileName, true);
   };
 
-  // Handle file click - check extension and open editor if supported
-  const handleFileClick = (fileName: string) => {
-    const fileExtension = fileName.split('.').pop()?.toLowerCase();
-    const supportedExtensions = ['json', 'yml', 'yaml', 'txt', 'js', 'ts', 'css', 'html'];
-    
-    if (fileExtension && supportedExtensions.includes(fileExtension)) {
-      const filePath = currentPath === "/" 
-        ? `/${fileName}` 
-        : `${currentPath}/${fileName}`;
-      onFileOpen(filePath, fileName);
+  // Selection handlers
+  const handleFileSelect = (fileName: string, selected: boolean) => {
+    setSelectedFiles(prev => {
+      const newSet = new Set(prev);
+      if (selected) {
+        newSet.add(fileName);
+      } else {
+        newSet.delete(fileName);
+      }
+      return newSet;
+    });
+  };
+
+  const handleSelectAll = () => {
+    if (selectedFiles.size === files.length) {
+      setSelectedFiles(new Set());
     } else {
-      console.log("File type not supported for editing:", fileName);
-      // You can add download or other actions here
+      const allFileNames = new Set(files.map(f => f.name));
+      setSelectedFiles(allFileNames);
     }
   };
 
-  // Handle path navigation (breadcrumb click)
+  const clearSelection = () => {
+    setSelectedFiles(new Set());
+    setIsSelectionMode(false);
+  };
+
+  // Handle folder click
+  const handleFolderClick = (folderName: string) => {
+    if (isSelectionMode) {
+      handleFileSelect(folderName, !selectedFiles.has(folderName));
+    } else {
+      const newPath = currentPath === "/" 
+        ? `/${folderName}` 
+        : `${currentPath}/${folderName}`;
+      fetchFiles(newPath);
+    }
+  };
+
+  // Handle file click
+  const handleFileClick = (fileName: string) => {
+    if (isSelectionMode) {
+      handleFileSelect(fileName, !selectedFiles.has(fileName));
+    } else {
+      const fileExtension = fileName.split('.').pop()?.toLowerCase();
+      const supportedExtensions = ['json', 'yml', 'yaml', 'txt', 'js', 'ts', 'css', 'html'];
+      
+      if (fileExtension && supportedExtensions.includes(fileExtension)) {
+        const filePath = currentPath === "/" 
+          ? `/${fileName}` 
+          : `${currentPath}/${fileName}`;
+        onFileOpen(filePath, fileName);
+      }
+    }
+  };
+
+  // Handle path navigation
   const handlePathClick = (path: string) => {
     fetchFiles(path);
+  };
+
+  // Action handlers
+  const handleMove = () => {
+    console.log("Moving files:", Array.from(selectedFiles));
+  };
+
+  const handleArchive = () => {
+    console.log("Archiving files:", Array.from(selectedFiles));
+  };
+
+  const handleDelete = () => {
+    console.log("Deleting files:", Array.from(selectedFiles));
+    clearSelection();
   };
 
   // Format time difference
@@ -113,6 +166,7 @@ useEffect(() => {
     return `${Math.floor(diffHours)} hr ago`;
   };
 
+  // View toggle function
   const toggleView = () => setViewMode((prev) => (prev === "grid" ? "list" : "grid"));
 
   const handleClose = () => {
@@ -120,7 +174,7 @@ useEffect(() => {
     setTimeout(() => setIsVisible(false), 300);
   };
 
-  // Build path segments for breadcrumb display
+  // Build path segments
   const pathSegments = [];
   let accumulatedPath = "";
   
@@ -150,7 +204,6 @@ useEffect(() => {
       </div>
 
       <div className="filemanager-content-container bg sh-m">
-        {/* Clickable Path Navigation */}
         <div className="path flex items-center flex-wrap">
           {pathSegments.map((segment, index) => (
             <div key={segment.path} className="flex items-center">
@@ -174,7 +227,6 @@ useEffect(() => {
         ) : (
           <div className={`file-containers grid-cont wrapss ${viewMode}`}>
             {files.map((f) => {
-              // Choose correct icon
               const Icon = !f.is_file
                 ? FaFolder
                 : f.mimetype.includes("zip")
@@ -191,12 +243,16 @@ useEffect(() => {
                   icon={<Icon className="text-3xl" />}
                   viewMode={viewMode}
                   isFolder={!f.is_file}
+                  isSelected={selectedFiles.has(f.name)}
+                  isSelectionMode={isSelectionMode}
+                  onSelect={(selected) => handleFileSelect(f.name, selected)}
+                  onLongPress={enterSelectionMode}
                   onClick={() => !f.is_file ? handleFolderClick(f.name) : handleFileClick(f.name)}
                 />
               );
             })}
           </div>
-        )}
+        )} 
       </div>
 
       <div className="floatoing_buttons">
@@ -207,6 +263,17 @@ useEffect(() => {
           {viewMode === "grid" ? <MdViewList /> : <HiViewGrid />}
         </div>
       </div>
+
+      <Selection_popup
+        selectedCount={selectedFiles.size}
+        onSelectAll={handleSelectAll}
+        onClearSelection={clearSelection}
+        onMove={handleMove}
+        onArchive={handleArchive}
+        onDelete={handleDelete}
+        isAllSelected={selectedFiles.size === files.length && files.length > 0}
+        isSelectionMode={isSelectionMode}
+      />
     </div>
   );
 };
