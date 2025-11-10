@@ -111,3 +111,13 @@ server id = 430de4da
 
 
 modify the pop section do the basic ui and complete the login after this commit going to implement the login to the ui
+
+
+
+
+
+
+
+
+-- selection is done function working fine and the selction login work fine as hell 
+--- i can sleep now
