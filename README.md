@@ -127,9 +127,3 @@ modify the pop section do the basic ui and complete the login after this commit 
 
 - this commit contains the file structure creation and bit planing nothing done with code 
 `commit message` -m - File structure
-
-
-there are fewfile that i added too this few commit are kind of just to create the work flow look good so
-nothing change with the code so 
-now the few Sp1 to Sp 10 commints are left going to play with this line of code
-final push of the day
