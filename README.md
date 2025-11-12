@@ -121,3 +121,9 @@ modify the pop section do the basic ui and complete the login after this commit 
 
 -- selection is done function working fine and the selction login work fine as hell 
 --- i can sleep now
+
+
+
+
+- this commit contains the file structure creation and bit planing nothing done with code 
+`commit message` -m - File structure
