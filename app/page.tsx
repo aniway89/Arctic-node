@@ -8,6 +8,7 @@ import Terminal from "@/components/Terminal";
 import File_Editor from "@/File_manager_components/File_Editor";
 import File_Expolor from "@/File_manager_components/File_Expolor";
 import Selection_popup from "@/File_manager_components/Selection_popup";
+import MoveTo from "@/File_manager_components/MoveTo";
 
 const Page = () => {
   const [isFileEditorVisible, setFileEditorVisible] = useState<boolean>(false);
@@ -55,6 +56,7 @@ const Page = () => {
               fileName={currentFile?.name}
             />
           )}
+          <MoveTo/>
         </div>
       )}
     </main>
