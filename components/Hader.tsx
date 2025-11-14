@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { FaCloudMoon } from "react-icons/fa";
-import { HiOutlineLogout, HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineLogout} from "react-icons/hi";
 
 const Hader = () => {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
@@ -36,9 +36,7 @@ const Hader = () => {
     <div className="Hader flex justify-between p-4 items-center sh-l text-c bg">
       <div className="left text-2xl font-semibold">Arctic Nodes SMP</div>
       <div className="right flex gap-5 text-2xl items-center">
-        <div className="Acton_buttons cursor-pointer">
-          <HiOutlineSearch />
-        </div>
+
         <div className="Acton_buttons cursor-pointer">
           <BiSolidDashboard />
         </div>

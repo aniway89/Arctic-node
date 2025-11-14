@@ -1,4 +1,3 @@
-// page.tsx
 "use client";
 import { useState } from "react";
 import File_Manager from "@/components/File_Manager";
@@ -7,7 +6,8 @@ import Resource from "@/components/Resource";
 import Terminal from "@/components/Terminal";
 import File_Editor from "@/File_manager_components/File_Editor";
 import File_Expolor from "@/File_manager_components/File_Expolor";
-import Selection_popup from "@/File_manager_components/Selection_popup";
+// import Selection_popup from "@/File_manager_components/Selection_popup";
+// Remove MoveTo import from here since it's now handled in File_Expolor
 
 const Page = () => {
   const [isFileEditorVisible, setFileEditorVisible] = useState<boolean>(false);
@@ -55,6 +55,7 @@ const Page = () => {
               fileName={currentFile?.name}
             />
           )}
+          {/* Remove MoveTo from here since it's now handled in File_Expolor */}
         </div>
       )}
     </main>
