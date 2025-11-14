@@ -138,3 +138,65 @@ brush chacking he main one
 
 
 - This is the checkpoint for the Move section ui
+
+
+
+- 🔧 Functional Summary
+1. File selection logic
+
+When user selects > 0 files/folders → enable buttons with class .files_but (make clickable, remove opacity).
+
+When no file/folder selected → disable those buttons (unclickable, opacity: 0.8).
+
+2. Move popup (MoveTo component)
+
+When user clicks “Move” button:
+
+Show popup → element with class .Move → set display: flex.
+
+Inside .Move, there’s a container .holderofthe which should:
+
+Render only folders (not files).
+
+Show only unselected folders.
+
+Render folders from the current user directory (e.g., if user is in /plugins, show folders from /plugins).
+
+Move_path element should show the current directory path.
+
+3. Folder interactions inside Move popup
+
+Single click on folder (MoveFile):
+
+Add class .selectedMoveToFolder to that div (and remove it from others).
+
+Double click on folder:
+
+Navigate into that folder (update the Move popup view accordingly).
+
+4. Confirm / Cancel actions
+
+Select Folder button:
+
+If user has clicked (single) on a folder → move selected files to that folder.
+
+If user navigated (double clicked) and did not select another folder → move to the current directory.
+
+Before moving → check for name conflicts and handle properly.
+
+Cancel button:
+
+Close the Move popup with same animation as file explorer and selection popup.
+
+When you share the code:
+
+Please include all relevant files (JS/TSX, HTML/JSX, CSS, etc.)
+
+Mention what stack you’re using — e.g. React + Node, Vanilla JS, or something else.
+
+If there’s any backend API already existing for file operations, include that too so I can integrate the move logic correctly.
+
+
+
+
+In this commit -m 'Selection, moving, archiving and file deletetion is completedly donw and working properly' git message will be this `File management`
