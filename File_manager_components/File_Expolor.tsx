@@ -8,6 +8,7 @@ import { FaFileAlt } from "react-icons/fa";
 import { FaFolder, FaFileZipper } from "react-icons/fa6";
 import Files from "./Files";
 import Selection_popup from "./Selection_popup";
+import MoveTo from "./MoveTo";
 
 interface FileInfo {
   name: string;
@@ -29,8 +30,12 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) 
   const [currentPath, setCurrentPath] = useState<string>("/");
   const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
   const [isSelectionMode, setIsSelectionMode] = useState(false);
-  
-  // FIXED: Use the same initial state function as your old working version
+  const [showMoveTo, setShowMoveTo] = useState(false);
+  const [closingMoveTo, setClosingMoveTo] = useState(false);
+  const [archiving, setArchiving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [moving, setMoving] = useState(false); // Add moving state
+
   const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("viewMode");
@@ -47,7 +52,6 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) 
       const data = await res.json();
       setFiles(data);
       setCurrentPath(directory);
-      // Clear selection and exit selection mode when changing directory
       setSelectedFiles(new Set());
       setIsSelectionMode(false);
     } catch (err) {
@@ -62,13 +66,40 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) 
     fetchFiles();
   }, []);
 
-  // FIXED: Save view mode to localStorage when it changes
   useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log("Saving viewMode to localStorage:", viewMode);
       localStorage.setItem("viewMode", viewMode);
     }
   }, [viewMode]);
+
+  // Generate archive name based on selection
+  const generateArchiveName = (): string => {
+    const selectedArray = Array.from(selectedFiles);
+    
+    if (selectedArray.length === 1) {
+      // Single file: use filename without extension
+      const fileName = selectedArray[0];
+      const baseName = fileName.includes('.') ? fileName.split('.').slice(0, -1).join('.') : fileName;
+      return `${baseName}.zip`;
+    } else {
+      // Multiple files: use "ArcticNode Arch" with incrementing number
+      const baseName = "ArcticNode Arch";
+      let finalName = `${baseName}.zip`;
+      let counter = 1;
+      
+      // Check if name already exists and find available number
+      const existingArchNames = files
+        .filter(file => file.name.startsWith(baseName) && file.name.endsWith('.zip'))
+        .map(file => file.name);
+      
+      while (existingArchNames.includes(finalName)) {
+        finalName = `${baseName} (${counter}).zip`;
+        counter++;
+      }
+      
+      return finalName;
+    }
+  };
 
   // Enter selection mode and select the specific file
   const enterSelectionMode = (fileName: string) => {
@@ -137,18 +168,126 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) 
     fetchFiles(path);
   };
 
-  // Action handlers
+  // Archive handler with custom naming
+  const handleArchive = async () => {
+    if (selectedFiles.size === 0) return;
+
+    setArchiving(true);
+    try {
+      const archiveName = generateArchiveName();
+      console.log("Creating archive:", archiveName, "with files:", Array.from(selectedFiles));
+      
+      const response = await fetch('/api/files/compress', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          root: currentPath,
+          files: Array.from(selectedFiles),
+          archiveName: archiveName,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to create archive');
+      }
+
+      console.log('Archive created successfully:', result);
+      
+      // Refresh the file list to show the new archive
+      await fetchFiles(currentPath);
+      
+      // Clear selection after successful archive
+      clearSelection();
+      
+      alert(`Archive created successfully: ${archiveName}`);
+      
+    } catch (error: any) {
+      console.error('Error creating archive:', error);
+      alert(`Failed to create archive: ${error.message}`);
+    } finally {
+      setArchiving(false);
+    }
+  };
+
+  // Delete handler
+  const handleDelete = async () => {
+    if (selectedFiles.size === 0) return;
+
+    // Confirm deletion
+    if (!confirm(`Are you sure you want to delete ${selectedFiles.size} item(s)? This action cannot be undone.`)) {
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      console.log("Deleting files:", Array.from(selectedFiles));
+      
+      const response = await fetch('/api/files/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          root: currentPath,
+          files: Array.from(selectedFiles),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to delete files');
+      }
+
+      console.log('Files deleted successfully');
+      
+      // Refresh the file list
+      await fetchFiles(currentPath);
+      
+      // Clear selection after successful deletion
+      clearSelection();
+      
+      alert(`Successfully deleted ${selectedFiles.size} item(s)`);
+      
+    } catch (error: any) {
+      console.error('Error deleting files:', error);
+      alert(`Failed to delete files: ${error.message}`);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  // Move handler
   const handleMove = () => {
     console.log("Moving files:", Array.from(selectedFiles));
+    setShowMoveTo(true);
+    setClosingMoveTo(false);
   };
 
-  const handleArchive = () => {
-    console.log("Archiving files:", Array.from(selectedFiles));
-  };
-
-  const handleDelete = () => {
-    console.log("Deleting files:", Array.from(selectedFiles));
+  // Handle move completion - navigate to destination
+  const handleMoveComplete = async (destinationPath: string) => {
+    console.log("Move completed, navigating to:", destinationPath);
+    
+    // Navigate to the destination directory
+    await fetchFiles(destinationPath);
+    
+    // Clear selection
     clearSelection();
+    
+    alert(`Files moved successfully to ${destinationPath}`);
+  };
+
+  // Close MoveTo component with animation
+  const handleCloseMoveTo = () => {
+    setClosingMoveTo(true);
+    setTimeout(() => {
+      setShowMoveTo(false);
+      setClosingMoveTo(false);
+    }, 300);
   };
 
   // Format time difference
@@ -273,7 +412,20 @@ const File_Expolor: React.FC<FileExpolorProps> = ({ setIsVisible, onFileOpen }) 
         onDelete={handleDelete}
         isAllSelected={selectedFiles.size === files.length && files.length > 0}
         isSelectionMode={isSelectionMode}
+        archiving={archiving}
+        deleting={deleting}
+        moving={moving} // Pass moving state
       />
+
+      {showMoveTo && (
+        <MoveTo 
+          onClose={handleCloseMoveTo} 
+          closing={closingMoveTo}
+          currentPath={currentPath}
+          selectedFiles={Array.from(selectedFiles)}
+          onMoveComplete={handleMoveComplete} // Pass the callback
+        />
+      )}
     </div>
   );
 };
