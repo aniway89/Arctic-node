@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const directory = searchParams.get('directory') || '/';
 
     const res = await axios.get(
-      `https://panel.arcticverse.in/api/client/servers/430de4da/files/list?directory=${encodeURIComponent(directory)}`,
+      `https://panel.arcticnodes.io/api/client/servers/430de4da/files/list?directory=${encodeURIComponent(directory)}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.PTERO_TOKEN}`,

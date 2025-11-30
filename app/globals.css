@@ -1,16 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Space+Grotesk:wght@300..700&display=swap");
+
 :root {
   --bg-dark: oklch(0.92 0 264);
   --bg: oklch(0.96 0 264);
   --bg-light: oklch(1 0 264);
   --text: oklch(0.15 0 264);
   --text-mited: oklch(0.4 0 264);
-  --bg-o:oklch(0.85 0 264) ;
+  --bg-o: oklch(0.85 0 264);
   --shadows-s: inset 0 1px 2px #ffffff, 0 1px 2px #00000030, 0 2px 4px #00000015;
   --shadows-m: inset 0 1px 2px #ffffff, 0 2px 4px #00000030, 0 4px 8px #00000015;
   --shadows-l: inset 0 1px 2px #ffffff, 0 2px 6px #00000030, 0 6px 10px #00000015;
   --shadows-ml: inset 0 1px 2px #ffffff, 0 4px 8px #00000030, 0 10px 14px #00000015;
-    --ins-border :  0px 0px 2px rgb(37, 37, 37);
+  --ins-border: 0px 0px 2px rgb(37, 37, 37);
+}
+
+/* Remove mobile tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /* Existing styles remain the same */
@@ -26,22 +37,24 @@ body.light {
   --bg-light: oklch(0.3 0 264);
   --text: oklch(0.96 0 264);
   --text-mited: oklch(0.76 0 264);
-  --bg-o:oklch(0.2 0 264) ;
+  --bg-o: oklch(0.2 0 264);
   --shadows-s: inset 0 1px 2px #ffffff30, 0 1px 2px #00000030, 0 2px 4px #00000015;
   --shadows-m: inset 0 1px 2px #ffffff30, 0 2px 4px #00000030, 0 4px 8px #00000015;
   --shadows-l: inset 0 1px 2px #ffffff30, 0 2px 6px #00000030, 0 6px 10px #00000015;
   --shadows-ml: inset 0 1px 2px #ffffff30, 0 4px 8px #00000030, 0 10px 14px #00000015;
-  --ins-border :  0px 0px 2px white;
+  --ins-border: 0px 0px 2px white;
 
 }
-.mr-2{
+
+.mr-2 {
   margin-right: 2rem;
 }
+
 body {
   background-color: var(--bg-dark);
   color: var(--text-mited);
   height: 100dvh;
-  padding: 5px 15px ;
+  padding: 5px;
   padding-bottom: 0 !important;
   overflow: hidden;
   font-family: "Space Grotesk", sans-serif;
@@ -71,6 +84,7 @@ body {
 .sh-l {
   box-shadow: var(--shadows-l);
 }
+
 .sh-ml {
   box-shadow: var(--shadows-ml);
 }
@@ -94,44 +108,65 @@ body {
 .bg-d {
   background: var(--bg-dark);
 }
-.bg-o{
+
+.bg-o {
   background: var(--bg-o);
 }
+
 .b-container {
-  height: 80%;
+  height: calc(100vh - 110px);
+  /* Adjust for header + bottom space */
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .Terminal {
-  width: 75%;
+  flex: 1;
+  /* Take remaining space */
   padding: 10px;
-  min-height: 100%;
+  height: 100%;
   border-radius: 15px;
+  overflow: hidden;
 }
 
 .File_manager_container {
-  width: 15%;
+  width: 17%;
+  /* Fixed width or percentage */
+  min-width: 180px;
+  max-width: 280px;
   border-radius: 15px;
   padding: 10px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .resources {
-  max-height: 100%;
+  height: 100%;
   width: 15%;
+  /* Fixed width or percentage */
+  min-width: 150px;
+  max-width: 220px;
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  flex-wrap: wrap;
-
+  overflow-y: auto;
+  /* Allow scrolling within resources if needed */
 }
 
 .Reasource_Card {
   border-radius: 10px;
   display: flex;
+  flex: 1;
+  /* Fill available height */
   flex-direction: column;
   align-items: center;
   width: 100%;
   justify-content: center;
+  min-height: 80px;
+  /* Minimum height to prevent squishing too much */
 }
 
 .wrapss {
@@ -219,9 +254,11 @@ body {
 .items-center {
   align-items: center;
 }
-.items-start{
+
+.items-start {
   align-items: start;
 }
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -314,15 +351,19 @@ body {
 .w-full {
   width: 100%;
 }
-.w-fit{
+
+.w-fit {
   width: fit-content;
 }
-.h-fill{
-  height:100%;
+
+.h-fill {
+  height: 100%;
 }
-.h-fit{
+
+.h-fit {
   height: fit-content;
 }
+
 .pl-3 {
   padding-left: 0.75rem;
 }
@@ -334,9 +375,11 @@ body {
 .pr-2 {
   padding-right: 0.5rem;
 }
-.p-2{
+
+.p-2 {
   padding: 0.5rem;
 }
+
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -349,17 +392,17 @@ body {
   gap: 1rem;
 }
 
-.by{
+.by {
   width: 100%;
-  
+
 }
 
-.border{
+.border {
   border: 1px solid white;
 }
 
 
-.terminal-command-input{
+.terminal-command-input {
   background: none;
   outline: none;
   border: none;
@@ -369,13 +412,15 @@ body {
 
 
 /* File manager */
-.file_expolor ,.File_Editor{
+.file_expolor,
+.File_Editor {
   width: 80%;
   height: 80%;
   top: 45%;
   left: 50%;
   position: absolute;
-  transform: translate(-50%, -50%) scale(0); /* start small */
+  transform: translate(-50%, -50%) scale(0);
+  /* start small */
   border-radius: 15px;
   padding: 10px;
   display: flex;
@@ -391,10 +436,12 @@ body {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
+
   80% {
     transform: translate(-50%, -50%) scale(1.05);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
@@ -406,6 +453,7 @@ body {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
@@ -421,15 +469,19 @@ body {
 }
 
 
-.hader{
+.hader {
   padding: 10px;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
-.close{
+
+.close {
   color: rgba(255, 0, 0, 0.842);
   cursor: pointer;
 }
-.filemanager-content-container, .file_editor_container{
+
+.filemanager-content-container,
+.file_editor_container {
   width: 100%;
   height: 100%;
   padding: 10px;
@@ -437,11 +489,12 @@ body {
   box-sizing: border-box;
   overflow: hidden;
 }
-.file-containers{
+
+.file-containers {
   height: 95%;
   padding: 5px;
   display: flex;
-  flex-wrap: wrap ;
+  flex-wrap: wrap;
   gap: 10px;
   padding-top: 0px;
   margin-top: 10px;
@@ -451,13 +504,15 @@ body {
   padding-bottom: 20px;
   scrollbar-gutter: stable;
 }
-.grid-cont{
+
+.grid-cont {
   align-content: flex-start;
 }
+
 /* Made by Ayan Khan */
 
 
-.File_card.list{
+.File_card.list {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -465,20 +520,23 @@ body {
   width: 100% !important;
   border-radius: 10px;
   transition-duration: 300ms;
-  &:hover{
+
+  &:hover {
     scale: 1.01;
     transition-duration: 300ms;
   }
 
 }
-.File_card.list .right{
+
+.File_card.list .right {
   display: flex;
   align-items: center;
   gap: 10px;
 
 
 }
-.File_card.grid{
+
+.File_card.grid {
   display: grid;
   padding: 1px;
   place-content: center;
@@ -489,44 +547,52 @@ body {
   text-align: center;
   cursor: pointer;
   transition-duration: 300ms;
-  &:hover{
+
+  &:hover {
     scale: 1.02;
     transition-duration: 300ms;
   }
 
 }
-.File_card.grid .right .checkbox-container{
+
+.File_card.grid .right .checkbox-container {
   width: 100%;
   justify-content: start;
   display: flex;
 }
 
 
-.File_card.grid .right{
- display: flex;
- flex-direction: column;
- align-items: center;
- gap: 10px;
+.File_card.grid .right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 
 
 }
+
 .File_card.grid .right .file_title {
   width: 90px;
   font-size: 0.8rem;
-  white-space: nowrap;       /* Keep text on one line */
-  overflow: hidden;          /* Hide the overflowing text */
-  text-overflow: ellipsis;   /* Add the "..." */
+  white-space: nowrap;
+  /* Keep text on one line */
+  overflow: hidden;
+  /* Hide the overflowing text */
+  text-overflow: ellipsis;
+  /* Add the "..." */
 }
 
-.File_card.grid .right .text-3xl{
+.File_card.grid .right .text-3xl {
   font-size: 3rem;
 }
-.File_card.grid .recent-update{
+
+.File_card.grid .recent-update {
   display: none;
 
 
 }
-.floatoing_buttons{
+
+.floatoing_buttons {
   position: fixed;
   right: 0;
   margin-bottom: 40px;
@@ -535,7 +601,7 @@ body {
   font-size: 1.5rem;
 }
 
-.floating_button{
+.floating_button {
   padding: 10px;
   border-radius: 10px;
   display: flex;
@@ -543,17 +609,21 @@ body {
   justify-content: center;
   margin-bottom: 5px;
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     scale: 1.03;
   }
-  box-shadow: inset 0 1px 2px #ffffff30, 0 4px 8px #00000030, 3px 3px 3px #00000034;
+
+  box-shadow: inset 0 1px 2px #ffffff30,
+  0 4px 8px #00000030,
+  3px 3px 3px #00000034;
 }
 
-.wrapup{
+.wrapup {
   text-overflow: ellipsis;
   width: 65%;
   white-space: nowrap;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 
@@ -571,14 +641,15 @@ body {
 
 
 
-.File_Editor{
+.File_Editor {
   width: 86%;
   height: 80%;
   position: absolute;
   top: 45%;
   left: 50%;
   position: absolute;
-  transform: translate(-50%, -50%) scale(0); /* start small */
+  transform: translate(-50%, -50%) scale(0);
+  /* start small */
   border-radius: 15px;
   padding: 10px;
   display: flex;
@@ -589,6 +660,7 @@ body {
   animation-fill-mode: forwards;
 
 }
+
 .File_Editor.popup {
   animation: popup 0.3s ease forwards;
 }
@@ -597,10 +669,11 @@ body {
   animation: popout 0.3s ease forwards;
 }
 
-.file_editor_container{
+.file_editor_container {
   box-sizing: border-box;
 }
-.editor{
+
+.editor {
   height: 92%;
   padding: 5px;
   display: flex;
@@ -616,59 +689,70 @@ body {
   scrollbar-gutter: stable;
 
 }
-.editor_line{
+
+.editor_line {
   gap: 2px;
   height: fit-content;
   width: 100%;
 }
-.line_number{
+
+.line_number {
   min-width: 50px;
   display: flex;
   justify-content: center;
 
 }
-.file_editor_f_buttons{
+
+.file_editor_f_buttons {
   font-size: 1rem;
   display: flex;
   gap: 10px;
 }
-.f_buttoons{
+
+.f_buttoons {
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
   transition-duration: 200ms;
-  &:hover{
+
+  &:hover {
     opacity: 0.7;
     transition-duration: 200ms;
   }
 }
 
-.cancel_button{
+.cancel_button {
   border: 1px solid var(--bg-light);
 }
-.path{
+
+.path {
   display: flex;
   align-items: center;
 
 }
-.notfound{
+
+.notfound {
 
   padding: 10px;
   height: 90%;
   display: grid;
   place-content: center;
 }
-.selection_pop{
+
+.selection_pop {
   position: absolute;
-  bottom: -30px; /* Added some bottom spacing */
+  bottom: -30px;
+  /* Added some bottom spacing */
   left: 50%;
 
-  transform: translateX(-50%); /* Fixed: was 50% should be -50% */
+  transform: translateX(-50%);
+  /* Fixed: was 50% should be -50% */
   width: fit-content;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  z-index: 10; /* Ensure it's above other content */
+  z-index: 10;
+  /* Ensure it's above other content */
 }
 
 .selection_pop.popup {
@@ -679,7 +763,7 @@ body {
   animation: popout 0.3s ease forwards;
 }
 
-.container_popup{
+.container_popup {
   padding: 10px;
   display: grid;
   place-content: center;
@@ -687,94 +771,108 @@ body {
   box-sizing: border-box;
 }
 
-.selected-items{
+.selected-items {
   box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 50px;
-  padding: 10px 0; /* Added vertical padding */
+  padding: 10px 0;
+  /* Added vertical padding */
 }
 
-.popup_section{
-  padding: 15px 60px 15px 30px; /* Fixed: Added top padding */
+.popup_section {
+  padding: 15px 60px 15px 30px;
+  /* Fixed: Added top padding */
   border-radius: 10px;
   box-sizing: border-box;
 }
 
-.files_but{
+.files_but {
   border-radius: 10px;
   padding: 10px 20px;
   font-size: 1rem;
   transition-duration: 200ms;
   cursor: pointer;
-  white-space: nowrap; /* Prevent text wrapping */
-  &:hover{
+  white-space: nowrap;
+
+  /* Prevent text wrapping */
+  &:hover {
     scale: 1.03;
     transition-duration: 200ms;
   }
 }
 
-.Selected{
+.Selected {
   font-size: 1.4rem;
   min-width: fit-content;
   margin-top: -5px;
   gap: 15px;
   text-align: center;
   display: flex;
-  align-items: center; /* Center align items vertically */
-  white-space: nowrap; /* Prevent text wrapping */
+  align-items: center;
+  /* Center align items vertically */
+  white-space: nowrap;
+  /* Prevent text wrapping */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.lefthang{
+.lefthang {
   position: absolute;
-  top: 10px; /* Position from top */
-  right: 10px; /* Position from right */
+  top: 10px;
+  /* Position from top */
+  right: 10px;
+  /* Position from right */
   height: auto;
   justify-content: end;
   padding: 5px;
-  margin-right: 0; /* Remove negative margin */
-  font-size: 1.2rem; /* Make close icon larger */
+  margin-right: 0;
+  /* Remove negative margin */
+  font-size: 1.2rem;
+  /* Make close icon larger */
   cursor: pointer;
-  z-index: 11; /* Ensure it's above popup content */
+  z-index: 11;
+  /* Ensure it's above popup content */
 }
 
-.dime-blue{
+.dime-blue {
   background-color: oklch(63.259% 0.17587 258.626);
   color: white;
 }
 
-.dime-red{
+.dime-red {
   background-color: oklch(65.432% 0.18754 22.79);
   color: white;
 }
 
-.Checkbox{
+.Checkbox {
   font-size: 1.5rem;
 }
 
-.selected-file{
+.selected-file {
   scale: 0.99;
   opacity: 0.6;
-  &:hover{
+
+  &:hover {
     scale: .99 !important;
   }
 }
 
 
-.Move{
+.Move {
   width: 60%;
   height: 60%;
   top: 45%;
   left: 50%;
   position: absolute;
-  transform: translate(-50%, -50%); /* start small */
+  transform: translate(-50%, -50%);
+  /* start small */
   border-radius: 15px;
   padding: 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
+
 .move_path {
   border: none;
   outline: none;
@@ -788,7 +886,8 @@ body {
   font-size: 1rem;
   color: var(--text);
 }
-.search_bar input{
+
+.search_bar input {
   border: none;
   outline: none;
   height: fit-content;
@@ -796,16 +895,18 @@ body {
   background: transparent;
   color: var(--text);
   padding: 15px;
-    font-size: 1.3rem;
+  font-size: 1.3rem;
 }
-.file_contianer{
+
+.file_contianer {
   width: 100%;
   height: 72%;
   border-radius: 10px;
   padding: 15px;
   box-sizing: border-box;
 }
-.holderofthe{
+
+.holderofthe {
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -816,67 +917,156 @@ body {
   padding-right: 10px;
   flex-wrap: wrap;
 }
-.butns{
+
+.butns {
   width: 100%;
   height: 12%;
   border-radius: 10px;
 }
-.butns{
+
+.butns {
   padding: 5px 50px;
   justify-content: end;
   gap: 10px;
   box-sizing: border-box;
 }
+
 .Folder_name {
-    border-radius: 4px;
-    padding: 2px 10px;
-    width: fit-content;
-    max-width: 40%;
-    overflow-x: auto; /* Enable scrolling */
-    overflow-y: hidden; /* Prevent vertical scrolling */
-    white-space: nowrap; /* Prevent text wrapping */
-    text-overflow: clip;
-    box-shadow: var(--ins-border);
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+  border-radius: 4px;
+  padding: 2px 10px;
+  width: fit-content;
+  max-width: 40%;
+  overflow-x: auto;
+  /* Enable scrolling */
+  overflow-y: hidden;
+  /* Prevent vertical scrolling */
+  white-space: nowrap;
+  /* Prevent text wrapping */
+  text-overflow: clip;
+  box-shadow: var(--ins-border);
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
 }
 
 /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
 .Folder_name::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
-.Mbutton{
+
+.Mbutton {
   padding: 5px 15px;
   transition-duration: 200ms;
   cursor: pointer;
-  border-radius: 5px;&:hover{
+  border-radius: 5px;
+
+  &:hover {
     scale: 1.03;
     transition-duration: 200ms;
   }
 }
-.movefile{
+
+.movefile {
   padding: 10px 20px;
   border-radius: 10px;
   width: 100%;
   cursor: pointer;
-  
+
 }
-.rightside{
+
+.rightside {
   font-size: 1.3rem;
   display: flex;
   align-items: center;
   gap: 15px;
 }
-.Foldericon{
+
+.Foldericon {
   font-size: 2rem;
 }
-.pathM{
+
+.pathM {
   font-size: 0.80rem;
   min-width: 40%;
   display: flex;
   align-items: center;
 }
-.selectedMoveToFolder{
-  color:  rgb(91, 91, 227);
+
+.selectedMoveToFolder {
+  color: rgb(91, 91, 227);
   scale: 0.98;
+}
+
+/* Mobile Layout adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    height: auto;
+    /* Allow body to grow */
+    min-height: 100dvh;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+  }
+
+  .b-container {
+    flex-direction: column;
+    height: auto;
+    /* Remove fixed height */
+    min-height: calc(100dvh - 100px);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    overflow: visible;
+    /* Allow content to flow */
+    gap: 20px;
+  }
+
+  .File_manager_container {
+    display: none;
+  }
+
+  .resources {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    display: flex;
+    flex-direction: row;
+    /* Change to row for wrapping */
+    flex-wrap: wrap;
+    /* Allow wrapping */
+    gap: 10px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .Reasource_Card {
+    flex: 1 1 140px;
+    /* Grow, shrink, min-width */
+    width: auto;
+    padding: 15px;
+    min-height: 100px;
+  }
+
+  .ip-card {
+    flex-basis: 100%;
+    /* Force full width for IP card */
+    order: -1;
+    /* Ensure it stays at the top if needed */
+  }
+
+  .Terminal {
+    width: 100%;
+    flex: none;
+    /* Disable flex growing/shrinking logic based on container */
+    height: 500px;
+    /* Fixed height for terminal on mobile */
+    min-height: 400px;
+  }
+
+  .Hader {
+    padding: 20px;
+    /* Increased padding */
+  }
 }

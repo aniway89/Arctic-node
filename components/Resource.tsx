@@ -6,10 +6,17 @@ import { PiHardDrivesFill } from "react-icons/pi";
 const Resource = () => {
   return (
     <div className="resources  ">
-      <div className="Reasource_Card  bg-l p-4 sh-m ">
+      <div className="Reasource_Card ip-card bg-l p-4 sh-m ">
         <FaWifi className="text-3xl" />
-        <div className="by  font-semibold text-xs text-center mt-2 ipadress">
-          orcarmmub2.arcticverse.in port: 1031
+        <div
+          className="by  font-semibold text-xs text-center mt-2 ipadress cursor-pointer hover:opacity-80 active:scale-95 transition-all"
+          onClick={() => {
+            navigator.clipboard.writeText("orcarmmub2.arcticverse.in:3000");
+            // Optional: Add a visual feedback here if possible, for now just copy
+          }}
+          title="Click to copy IP"
+        >
+          orcarmmub2.arcticverse.in port:3000
         </div>
       </div>
       <div className="Reasource_Card  bg-l p-4 sh-m ">
@@ -18,7 +25,7 @@ const Resource = () => {
           4D 12H 14M
         </div>
       </div>
-      <div className="Reasource_Card  bg-l p-4 sh-m ">  
+      <div className="Reasource_Card  bg-l p-4 sh-m ">
         <RiRam2Fill className="text-3xl" />
         <div className="by font-semibold text-1xl text-center mt-2">
           4.4 / 12Gb
